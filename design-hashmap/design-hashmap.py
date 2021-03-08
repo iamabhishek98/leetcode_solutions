@@ -4,8 +4,7 @@ class MyHashMap(object):
         """
         Initialize your data structure here.
         """
-        self.key = []
-        self.value = []
+        self.value = [-1]*1000000
         
 
     def put(self, key, value):
@@ -15,12 +14,7 @@ class MyHashMap(object):
         :type value: int
         :rtype: None
         """
-        if key not in self.key:
-            self.key.append(key)
-            self.value.append(value)
-        else:
-            i = self.key.index(key)
-            self.value[i] = value
+        self.value[key] = value
 
     def get(self, key):
         """
@@ -28,24 +22,15 @@ class MyHashMap(object):
         :type key: int
         :rtype: int
         """
-        try:
-            i = self.key.index(key)
-            return self.value[i]
-        except:
-            return -1
-
+        return self.value[key]
+        
     def remove(self, key):
         """
         Removes the mapping of the specified value key if this map contains a mapping for the key
         :type key: int
         :rtype: None
         """
-        try:
-            i = self.key.index(key)
-            del self.key[i]
-            del self.value[i]
-        except:
-            return
+        self.value[key] = -1
 
 
 # Your MyHashMap object will be instantiated and called as such:

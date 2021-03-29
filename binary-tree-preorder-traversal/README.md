@@ -1,3 +1,4 @@
+[Discussion Post (created on 29/2/2021 at 16:20)](https://leetcode.com/problems/binary-tree-preorder-traversal/submissions/)  
 <h2>144. Binary Tree Preorder Traversal</h2><h3>Medium</h3><hr><div><p>Given the <code>root</code> of a binary tree, return <em>the preorder traversal of its nodes' values</em>.</p>
 
 <p>&nbsp;</p>

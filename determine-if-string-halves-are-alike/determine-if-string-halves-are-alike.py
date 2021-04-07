@@ -1,10 +1,18 @@
-def countVowels(s):
-    c = 0
-    for i in s:
-        if (i in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']): c+=1
-    return c
-
-class Solution:
-    def halvesAreAlike(self, s: str) -> bool:
-        n = floor(len(s)/2)
-        return countVowels(s[0:n]) == countVowels(s[n:])
+class Solution(object):
+    def halvesAreAlike(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
+        
+        c = 0
+        mid = len(s)/2
+        for i in range(mid):
+            if s[i] in vowels:
+                c += 1
+            if s[mid+i] in vowels:
+                c -= 1
+        
+        return c == 0
+                    

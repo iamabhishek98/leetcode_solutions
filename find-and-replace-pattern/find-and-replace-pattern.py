@@ -14,7 +14,4 @@ class Solution(object):
                 if (word[i], pattern[i]) != (m2[pattern[i]], m1[word[i]]): return False
             return True
         
-        ans = []
-        for word in words:
-            if check(word): ans.append(word)
-        return ans
+        return filter(check, words)

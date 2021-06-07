@@ -6,7 +6,9 @@ class Solution(object):
         """
         s = set(nums)
         maxlen = 0
+        seen = set()
         for i in nums:
+            if i in seen: continue
             if i-1 not in s:
                 currlen = 1
                 currnum = i
@@ -16,5 +18,6 @@ class Solution(object):
                     currlen+=1
                     
                 maxlen = max(maxlen,currlen)
+            seen.add(i)    
                 
         return maxlen

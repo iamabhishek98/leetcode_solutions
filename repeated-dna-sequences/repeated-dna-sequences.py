@@ -1,5 +1,3 @@
-from collections import Counter
-
 class Solution(object):
     def findRepeatedDnaSequences(self, s):
         """
@@ -8,17 +6,25 @@ class Solution(object):
         """
         if len(s)<10: return []
         
-        occurrences = {}
-        i = 0        
-        currentMap = Counter(s[i:i+10])
-        while i+10 <= len(s):
-            currStr = s[i:i+10]
-            if currStr not in occurrences: occurrences[currStr] = 1
-            else: occurrences[currStr]+=1 
-            i+=1
-
-        ans = []
-        for i in occurrences:
-            if occurrences[i]>1: ans.append(i)
+        char = { 'A':0,'C':1,'G':2,'T':3 }
         
-        return ans
+        existing_hash = set()
+        repeated_str = set()
+        
+        hash_val = 0
+        base = 4
+        shift_hash = pow(base,9)
+        
+        for i in range(10):
+            hash_val = hash_val*base+char[s[i]]
+            
+        existing_hash.add(hash_val)
+        
+        for i in range(10, len(s)):
+            hash_val -= char[s[i-10]]*shift_hash
+            hash_val = hash_val*base+char[s[i]]
+            
+            if hash_val in existing_hash: repeated_str.add(s[i-9:i+1])
+            else: existing_hash.add(hash_val)
+        
+        return repeated_str

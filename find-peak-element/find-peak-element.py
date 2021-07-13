@@ -4,9 +4,15 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if 1 < len(nums) and nums[0] > nums[1]: return 0
-        for i,x in enumerate(nums):
-            if i == len(nums)-1:
-                if x > nums[i-1]: return i
-            elif nums[i-1] < x and nums[i+1] < x: return i
-        return 0
+        start = 0
+        end = len(nums)-1
+        
+        # if current element is greater than next element, keep moving backward
+        # else if current element is smaller than next element, move forward
+        # this way the position always converges to a peak
+        while start<end:
+            mid = (start+end)/2
+            if nums[mid]>nums[mid+1]: end = mid
+            else: start = mid+1
+        
+        return start

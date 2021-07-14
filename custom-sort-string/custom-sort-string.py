@@ -1,3 +1,5 @@
+from collections import Counter
+
 class Solution(object):
     def customSortString(self, order, str):
         """
@@ -9,12 +11,20 @@ class Solution(object):
         for i,x in enumerate(order):
             order_map[x] = i
         
-        arr = list(str)
+        # bucket sort
+        freq = {}
+        for i in range(len(order)):
+            freq[i] = []
         
-        def compare(a):
-            if a in order_map: return order_map[a]
-            return 0
+        ans = []
+        for i in str:
+            if i in order_map: freq[order_map[i]].append(i)
+            else: ans.append(i)
         
-        return ''.join(sorted(arr,key=compare))
+        for i in freq:
+            ans.extend(freq[i])
+        
+        return ''.join(ans)
+        
         
         

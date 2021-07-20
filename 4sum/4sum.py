@@ -1,5 +1,3 @@
-from collections import Counter
-
 class Solution(object):
     def fourSum(self, nums, target):
         """
@@ -7,23 +5,57 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
-        freq = Counter(nums)
-        ans = set()
+        # https://www.youtube.com/watch?v=g4vhYVKZ1xs&ab_channel=CodingDecoded
+        nums.sort()
         
-        def addToAns(a,b,c,d):
-            ans.add(tuple(sorted([a,b,c,d])))
-        
-        for i in range(len(nums)):
-            for j in range(i+1,len(nums)):            
-                for k in range(j+1,len(nums)):
-                    val = target-nums[k]-nums[j]-nums[i]
-                    if val in freq:
-                        if val == nums[k] == nums[j] == nums[i]:
-                            if freq[val] >= 4: addToAns(val,nums[k],nums[j],nums[i])
-                        elif val == nums[k] == nums[j] or val == nums[k] == nums[i] or val == nums[j] == nums[i]:
-                            if freq[val] >= 3: addToAns(val,nums[k],nums[j],nums[i])
-                        elif val == nums[k] or val == nums[j] or val == nums[i]:
-                            if freq[val] >= 2: addToAns(val,nums[k],nums[j],nums[i])
-                        else: addToAns(val,nums[k],nums[j],nums[i])
-        
-        return ans
+        # recursive fn
+        def kSum(index,k,target):
+            kList = None
+            if k == 2: 
+                # this creates the initial list and the following k values get appended to this list
+                return twoSum(index,target)
+            else:
+                kList = []
+                i = index
+                while i < len(nums)-k+1:
+                    
+                    temp = kSum(i+1,k-1,target-nums[i])
+                    
+                    # temp not None means that particular combination added up to target 
+                    # so it can be appended to the ans
+                    if temp is not None:
+                        for l in temp:
+                            l.insert(0,nums[i])
+                            kList.append(l)
+                    
+                    # because it was already considered for the combination
+                    i+=1
+                    
+                    # to get rid of duplicates
+                    while i < len(nums)-k+1 and nums[i] == nums[i-1]: i+=1
+            
+            return kList             
+            
+        def twoSum(index,target):
+            twoSumList = []
+            left = index
+            right = len(nums)-1
+            
+            while left<right:
+                s = nums[left]+nums[right]
+                if s<target: left+=1
+                elif s>target: right-=1
+                else:
+                    twoSumList.append([nums[left],nums[right]])
+                    
+                    # because both were already used in the combination
+                    left+=1
+                    right-=1
+                    
+                    # to get rid of duplicates
+                    while left<right and left != index and nums[left] == nums[left-1]: left+=1
+                    while left<right and right != len(nums)-1 and nums[right] == nums[right+1]: right-=1      
+            
+            return twoSumList
+                
+        return kSum(0,4,target)

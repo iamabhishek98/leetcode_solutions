@@ -19,8 +19,7 @@ class Solution(object):
         
         q = deque()
         
-        count = 0
-        q.append([count,root])
+        q.append([0,root])
         
         currLvl = []
         

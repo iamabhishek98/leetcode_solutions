@@ -5,6 +5,7 @@ class Node(object):
         self.val = val
         self.children = children
 """
+from collections import deque
 
 class Solution(object):
     def levelOrder(self, root):
@@ -12,17 +13,27 @@ class Solution(object):
         :type root: Node
         :rtype: List[List[int]]
         """
-        if root is None: return []
-        ans = []
-        curr_i = -1
-        queue = [(0,root)]
-        while queue:
-            curr = queue.pop(0)
-            if curr_i != curr[0]: 
-                curr_i = curr[0]
-                ans.append([])
-            if curr[1]:
-                ans[-1].append(curr[1].val)
-                for c in curr[1].children:
-                    queue.append((curr_i+1,c))
-        return ans
+        if not root: return []
+        
+        levels = {}
+        
+        q = deque()
+        
+        count = 0
+        q.append([count,root])
+        
+        currLvl = []
+        
+        # bfs to iterate lvl by lvl
+        while q:
+            curr = q.popleft()    
+            lvl = curr[0]
+            val = curr[1].val
+            
+            if lvl in levels: levels[lvl].append(val)
+            else: levels[lvl] = [val]
+            
+            for child in curr[1].children:
+                q.append([lvl+1,child])
+        
+        return levels.values()

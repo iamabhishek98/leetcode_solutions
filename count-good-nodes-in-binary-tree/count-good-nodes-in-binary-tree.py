@@ -17,9 +17,9 @@ class Solution(object):
                 return
             
             if node.val >= curr_max:
+                curr_max = node.val
                 self.count += 1
-                curr_max = max(node.val, curr_max)
-            
+
             recurse(node.left, curr_max)            
             recurse(node.right, curr_max)
         

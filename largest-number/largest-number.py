@@ -4,12 +4,9 @@ class Solution(object):
         :type nums: List[int]
         :rtype: str
         """
-        for i in range(len(nums)):
-            for j in range(i+1,len(nums)):
-                a = str(nums[i])+str(nums[j])
-                b = str(nums[j])+str(nums[i])
-                if (b > a):
-                    nums[i],nums[j] = nums[j],nums[i]
-        while len(nums)>1 and nums[0] == 0:
-            nums.pop(0)
-        return ''.join(map(str,nums))
+        
+        nums = sorted(map(str,nums),cmp=(lambda x,y : 1 if x+y < y+x else -1))
+        res = ''.join(nums)
+        # the most significant number will be in front so if 0 is in front, we return 0 as we know the result is a string of 0s
+        return '0' if res[0] == '0' else res
+    

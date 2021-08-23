@@ -5,10 +5,8 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        
-        
         def isVowel(s):
-            return s in ["a","e","i","o","u"]
+            return s in set(["a","e","i","o","u"])
         
         curr_count = 0
         

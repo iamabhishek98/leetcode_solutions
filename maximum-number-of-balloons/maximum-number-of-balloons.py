@@ -8,19 +8,4 @@ class Solution(object):
         """
         m = Counter(text)
         
-        if 'b' not in m: return 0
-        count = m['b']
-        
-        if 'a' not in m: return 0
-        count = min(count, m['a'])
-        
-        if 'n' not in m: return 0
-        count = min(count, m['n'])
-        
-        if 'o' not in m or m['o'] < 2: return 0
-        count = min(count, m['o']//2)
-        
-        if 'l' not in m or m['l'] < 2: return 0
-        count = min(count, m['l']//2)
-        
-        return count
+        return min(m.get('b',0), m.get('a',0), m.get('n',0), m.get('o',0)//2, m.get('l',0)//2)

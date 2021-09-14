@@ -20,7 +20,7 @@ class Solution(object):
             slow = slow.next
             if fast: fast = fast.next
             if fast == slow:
-                while slow != head:
+                while slow != head: # to find where the loop  started
                     slow = slow.next
                     head = head.next
                 return head

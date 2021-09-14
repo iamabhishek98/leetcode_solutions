@@ -1,11 +1,3 @@
-def invert(root):
-    if (root is None): return None
-    right = invert(root.right)
-    left = invert(root.left)
-    root.right = left
-    root.left = right
-    return root
-
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, val=0, left=None, right=None):
@@ -18,4 +10,12 @@ class Solution(object):
         :type root: TreeNode
         :rtype: TreeNode
         """
-        return invert(root)
+        def invert(root = root):
+            if (root is None): return None
+            right = invert(root.right)
+            left = invert(root.left)
+            root.right = left
+            root.left = right
+            return root
+        
+        return invert()

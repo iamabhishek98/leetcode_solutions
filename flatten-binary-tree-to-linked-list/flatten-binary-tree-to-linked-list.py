@@ -10,21 +10,43 @@ class Solution(object):
         :type root: TreeNode
         :rtype: None Do not return anything, modify root in-place instead.
         """
-        self.l = TreeNode(0)
-        self.arr = []
-        def dfs(node):
-            if node is None:
-                return
-            self.arr.append(node.val)
-            dfs(node.left)
-            dfs(node.right)
+        # https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/37154/8-lines-of-python-solution-(reverse-preorder-traversal)
         
-        dfs(root)
-        ans = root
-        for i,x in enumerate(self.arr):
-            root.val = x
+        #         root
+        #         / 
+        #       1 
+        #      / \ 
+        #     3  4  
+        #     Let's see what is happening with this code.
+
+        #     Node(4).right = None
+        #     Node(4).left = None
+        #     prev = Node(4)
+        #     Node(3).right = Node(4) (prev)
+        #     Node(3).left = None
+        #     prev = Node(3)->Node(4)
+        #     Node(1).right = prev = Node(3) -> Node(4)
+        #     Node(1).left = None
+        #     prev = Node(1)->Node(3)->Node(4) (Which is the answer)
+        
+        # preorder: root -> left -> right
+        # reverse preorder: right -> left -> root
+        # postorder: left -> right -> root
+        
+        # therefore this is reverse preorder
+        
+        self.prev = None
+        def recurse(root = root):
+            if root is None: 
+                return
+            
+            recurse(root.right)
+            recurse(root.left)
+            
+            root.right = self.prev
             root.left = None
-            root.right = None
-            if i < len(self.arr)-1:
-                root.right = TreeNode()
-                root = root.right
+            # recursively building up the list on the right subtree through this assignment
+            # references the right subtree first and then the left subtree references this right subtree...
+            self.prev = root
+            
+        recurse()

@@ -11,24 +11,26 @@ class Solution(object):
         :type postorder: List[int]
         :rtype: TreeNode
         """
+        indexes = {}
+        for i,x in enumerate(postorder):
+            indexes[x] = i
+        
         self.preIndex = 0
+
         def recurse(startPostOrder = 0, endPostOrder = len(postorder)):
             if self.preIndex >= len(preorder) or startPostOrder > endPostOrder: return
             
             root = TreeNode(preorder[self.preIndex])
             self.preIndex += 1
             
-            if startPostOrder == endPostOrder or self.preIndex >= len(preorder): return root
+            if self.preIndex >= len(preorder) or startPostOrder == endPostOrder: return root
             
-            found = False
-            for i in range(startPostOrder, endPostOrder):
-                if postorder[i] == preorder[self.preIndex]:
-                    found = i
-                    break
-                    
-            if found <= endPostOrder:
-                root.left = recurse(startPostOrder, found)
-                root.right = recurse(found + 1, endPostOrder - 1)
+            # search for the index of the root of the left subtree in the postorder traversal
+            search = indexes[preorder[self.preIndex]]
+            leftIndex = search if startPostOrder <= search < endPostOrder else startPostOrder 
+            
+            root.left = recurse(startPostOrder, leftIndex)
+            root.right = recurse(leftIndex + 1, endPostOrder - 1)
             
             return root
             

@@ -4,30 +4,42 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        # right, down, left, up
-        d = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        rl, rh, cl, ch = 0, len(matrix), 0, len(matrix[0])
+        
+        total = rh*ch
         count = 0
-        m = len(matrix)
-        n = len(matrix[0])
-        i = 0
-        j = 0
-        prev_i = 0
-        prev_j = 0
-        curr_dir = 0
-        arr = []
-        while count < m*n:
-            if i < 0 or i >= m or j < 0 or j >= n or matrix[i][j] == -101:
-                curr_dir += 1
-                curr_dir = curr_dir % 4
-                i = prev_i
-                j = prev_j
-            if matrix[i][j] != -101:
-                arr.append(matrix[i][j])
-                count +=1
-            matrix[i][j] = -101
-            prev_i = i
-            prev_j = j
-            i += d[curr_dir][0]
-            j += d[curr_dir][1]
+        traversal = []
+        
+        while count < total:
+            for c in range(cl, ch):
+                if matrix[rl][c] == 101: continue
+                traversal.append(matrix[rl][c])
+                matrix[rl][c] = 101
+                count += 1
             
-        return arr
+            rl += 1
+            ch -= 1
+            
+            for r in range(rl, rh):
+                if matrix[r][ch] == 101: continue
+                traversal.append(matrix[r][ch])
+                matrix[r][ch] = 101
+                count += 1
+            
+            rh -= 1
+            
+            for c in range(ch, cl - 1, -1):
+                if matrix[rh][c] == 101: continue
+                traversal.append(matrix[rh][c])
+                matrix[rh][c] = 101
+                count += 1
+            
+            for r in range(rh, rl - 1, -1):
+                if matrix[r][cl] == 101: continue
+                traversal.append(matrix[r][cl])
+                matrix[r][cl] = 101
+                count += 1
+
+            cl += 1            
+        
+        return traversal

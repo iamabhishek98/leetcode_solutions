@@ -4,10 +4,15 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        seq = [0]*38
-        seq[1] = seq[2] = 1
+        if n == 0: return 0
+        if n == 1 or n == 2: return 1
+        
+        a = 0
+        b = c = 1        
+        d = 0
         
         for i in range(3, n+1):
-            seq[i] = seq[i-1]+seq[i-2]+seq[i-3]
+            d = a + b + c
+            a, b, c = b, c, d
         
-        return seq[n]
+        return d

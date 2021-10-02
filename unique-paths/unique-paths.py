@@ -5,7 +5,7 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        # Method 1: Top down DP approach
+        # Method 1: Tabulation (Top down DP approach)
         dp = [[0 for _ in range(n+1)] for __ in range(m+1)]
         dp[1][1] = 1
         

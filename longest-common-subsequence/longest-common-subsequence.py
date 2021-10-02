@@ -5,21 +5,19 @@ class Solution(object):
         :type text2: str
         :rtype: int
         """
-        # https://www.youtube.com/watch?v=sSno9rV8Rhg&ab_channel=AbdulBari
-        self.dp = {}
-        def lcs(i = 0, j = 0):
-            if i >= len(text1) or j >= len(text2): return 0
-            
-            key = tuple([i,j])
-            
-            if key in self.dp: return self.dp[key]
-            
-            if text1[i] == text2[j]: 
-                return 1 + lcs(i+1,j+1)
-            
-            self.dp[key] = max(lcs(i+1,j), lcs(i,j+1))
-            
-            return self.dp[key]
+        # Method 1: Tabulation (Top down DP approach)
+        m = len(text1)
+        n = len(text2)
+        dp = [[0 for _ in range(n+1)] for __ in range(m+1)]
         
-        return lcs()
-        
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if text1[i-1] == text2[j-1]:
+                    # current maximum
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    # because it could be matching the previous char
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                
+        return dp[m][n]
+                            

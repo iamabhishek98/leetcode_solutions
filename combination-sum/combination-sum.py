@@ -7,17 +7,22 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
+        # https://www.youtube.com/watch?v=IER1ducXujU&ab_channel=KevinNaughtonJr.
+        candidates = sorted(candidates)
         self.ans = set()
-        def recurse(nums,target,curr):
-            if target == 0: 
-                self.ans.add(tuple(sorted(copy(curr)))) 
-                return
-            for i in nums:
-                if i <= target: 
-                    curr.append(i)
-                    recurse(nums,target-i,curr)
-                    curr.pop()
-            
-        recurse(candidates,target,[])
-        return self.ans
         
+        def recurse(target = target, arr = []):
+            if target == 0: 
+                self.ans.add(tuple(sorted(arr)))
+                return 
+            
+            for i in range(len(candidates)):
+                if candidates[i] <= target:
+                    arr.append(candidates[i])
+                    recurse(target-candidates[i],arr)
+                    arr.pop()
+                    
+            return
+        
+        recurse()
+        return self.ans

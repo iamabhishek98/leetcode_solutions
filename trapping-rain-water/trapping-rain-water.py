@@ -5,19 +5,20 @@ class Solution(object):
         :rtype: int
         """
         left_max = []
-        m = 0
-        for i in range(len(height)):
-            m = max(m, height[i])
-            left_max.append(m)
+        mx = height[0]
+        for i in height:
+            mx = max(mx,i)
+            left_max.append(mx)
         
         right_max = []
-        m = 0
+        mx = height[-1]
         for i in range(len(height)-1,-1,-1):
-            m = max(m, height[i])
-            right_max.append(m)
-        
-        count = 0
-        for i in range(len(height)):
-            count += (min(left_max[i], right_max[len(height)-i-1]) - height[i])
-        
-        return count
+            mx = max(mx,height[i])
+            right_max.append(mx)
+        right_max.reverse()
+
+        trapped = 0
+        for i,x in enumerate(height):
+            trapped += (min(left_max[i],right_max[i])-x)
+                
+        return trapped

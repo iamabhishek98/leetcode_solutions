@@ -6,11 +6,7 @@ class Solution(object):
         """
         n = len(nums)
         
-        if n <= 2:
-            return reversed(nums)
-        
         prefix_product = [nums[0]]
-        
         for i in range(1,n):
             prefix_product.append(prefix_product[-1]*nums[i])
         

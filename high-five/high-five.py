@@ -8,19 +8,25 @@ class Solution(object):
         """
         m = {}
         for item in items:
-            if item[0] not in m: m[item[0]] = [-item[1]]
-            else: m[item[0]].append(-item[1])
+            if item[0] not in m: 
+                m[item[0]] = [-item[1]]
+                heapq.heapify(m[item[0]])
+            else: 
+                heapq.heappush(m[item[0]], -1*item[1])
         
-        ans = []
+        averages = []
+        heapq.heapify(averages)
         for key in m:
             count = 0
             avg = 0
-            heapq.heapify(m[key])
             while count < 5 and m[key]:
                 avg += (-1*heapq.heappop(m[key]))
                 count += 1
             avg /= count
-            ans.append([key,avg])
+            heapq.heappush(averages,[key,avg])
         
-        ans.sort()
+        ans = []
+        while averages:
+            ans.append(heapq.heappop(averages))
+        
         return ans
